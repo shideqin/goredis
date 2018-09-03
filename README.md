@@ -14,8 +14,9 @@ go get github.com/shideqin/goredis.git
 ## Usage
 
 ```golang
-
+//创建redis 连接
 client := goredis.Conn("HOST", "PASSWD", poolSzie)
+
 //设置key
 str, err := client.Set("key","value",seconds)
 
