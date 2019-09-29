@@ -14,3 +14,8 @@ func (c *Client) Zadd(key string, score int, member interface{}) (int, error) {
 func (c *Client) Zrem(key string, member interface{}) (int, error) {
 	return c.pool.Cmd("ZREM", key, member).Int()
 }
+
+//Zrank 返回有序集 key 中成员 member 的排名
+func (c *Client) Zrank(key string, member interface{}) (int, error) {
+	return c.pool.Cmd("ZRANK", key, member).Int()
+}
