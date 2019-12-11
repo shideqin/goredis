@@ -1,0 +1,24 @@
+<component name="ProjectDictionaryState">
+  <dictionary name="admin">
+    <words>
+      <w>hdel</w>
+      <w>hexists</w>
+      <w>hget</w>
+      <w>hgetall</w>
+      <w>hlen</w>
+      <w>hset</w>
+      <w>incrbyfloat</w>
+      <w>llen</w>
+      <w>lpop</w>
+      <w>lpush</w>
+      <w>lrange</w>
+      <w>lrem</w>
+      <w>passwd</w>
+      <w>rpush</w>
+      <w>setnx</w>
+      <w>zadd</w>
+      <w>zrange</w>
+      <w>zrem</w>
+    </words>
+  </dictionary>
+</component>

@@ -50,3 +50,12 @@ func (c *Client) Hlen(key string) (int, error) {
 	}()
 	return conn.Cmd("HLEN", key).Int()
 }
+
+//检查给定域 field 是否存在于哈希表 hash 当中
+func (c *Client) Hexists(key, field string) (int, error) {
+	conn := c.GetConn()
+	defer func() {
+		c.PutConn(conn)
+	}()
+	return conn.Cmd("HEXISTS", key, field).Int()
+}

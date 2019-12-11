@@ -28,7 +28,7 @@ func Conn(host, passwd string, size int) *Client {
 		}
 		if passwd != "" {
 			if err = client.Cmd("AUTH", passwd).Err; err != nil {
-				client.Close()
+				_ = client.Close()
 				return nil, err
 			}
 		}
@@ -52,7 +52,6 @@ func (c *Client) GetConn() *redis.Client {
 	}()
 	conn, err := c.pool.Get()
 	if err != nil {
-		conn.Close()
 		panic("conn " + err.Error())
 	}
 	return conn
