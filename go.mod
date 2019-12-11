@@ -1,4 +1,4 @@
-module shideqin/goredis
+module github.com/shideqin/goredis
 
 go 1.13
 
