@@ -14,3 +14,13 @@ func (c *Client) Zadd(key string, score int, member interface{}) (int, error) {
 func (c *Client) Zrem(key string, member interface{}) (int, error) {
 	return c.pool.Cmd("ZREM", key, member).Int()
 }
+
+//Zrank 返回有序集 key 中成员 member 的排名
+func (c *Client) Zrank(key string, member interface{}) (int, error) {
+	return c.pool.Cmd("ZRANK", key, member).Int()
+}
+
+//Zcount 返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量
+func (c *Client) Zcount(key string, min, max int) (int, error) {
+	return c.pool.Cmd("ZCOUNT", key, min, max).Int()
+}
