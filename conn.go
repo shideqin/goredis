@@ -1,8 +1,6 @@
 package goredis
 
 import (
-	"log"
-
 	"github.com/mediocregopher/radix.v2/pool"
 	"github.com/mediocregopher/radix.v2/redis"
 )
@@ -13,11 +11,13 @@ type Client struct {
 	ErrRespNil error
 }
 
+var connErr error
+
 //Conn 连接redis
 func Conn(host, passwd string, size int) *Client {
 	defer func() {
 		if r := recover(); r != nil {
-			log.Println("redis recover in ", r)
+			connErr = r.(error)
 		}
 	}()
 	df := func(network, addr string) (*redis.Client, error) {
@@ -35,10 +35,15 @@ func Conn(host, passwd string, size int) *Client {
 	}
 	p, err := pool.NewCustom("tcp", host, size, df)
 	if err != nil {
-		panic("pool " + err.Error())
+		panic(err)
 	}
+	connErr = nil
 	return &Client{
 		pool:       p,
 		ErrRespNil: redis.ErrRespNil,
 	}
+}
+
+func Ping() error {
+	return connErr
 }
