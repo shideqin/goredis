@@ -44,6 +44,7 @@ func Conn(host, passwd string, size int) *Client {
 	}
 }
 
+//Ping 监测数据库连接
 func Ping() error {
 	return connErr
 }
