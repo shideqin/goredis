@@ -8,10 +8,10 @@ import (
 
 func main() {
 	//连接
-	client := goredis.Conn("127.0.0.1", "", 10)
+	client := goredis.Conn("127.0.0.1", "", 1)
 	fmt.Println(client)
 
 	//检测连接
-	err := goredis.Ping()
+	err := client.Ping()
 	fmt.Println(err)
 }

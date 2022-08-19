@@ -5,21 +5,20 @@ import (
 	"github.com/mediocregopher/radix.v2/redis"
 )
 
+var (
+	//ErrRespNil 数据没有找到
+	ErrRespNil = redis.ErrRespNil
+)
+
 //Client redis连接结构体
 type Client struct {
-	pool       *pool.Pool
-	ErrRespNil error
+	pool    *pool.Pool
+	connErr error
 }
-
-var connErr error
 
 //Conn 连接redis
 func Conn(host, passwd string, size int) *Client {
-	defer func() {
-		if r := recover(); r != nil {
-			connErr = r.(error)
-		}
-	}()
+	cli := &Client{}
 	df := func(network, addr string) (*redis.Client, error) {
 		client, err := redis.Dial(network, addr)
 		if err != nil {
@@ -35,16 +34,18 @@ func Conn(host, passwd string, size int) *Client {
 	}
 	p, err := pool.NewCustom("tcp", host, size, df)
 	if err != nil {
-		panic(err)
+		cli.connErr = err
+		return cli
 	}
-	connErr = nil
-	return &Client{
-		pool:       p,
-		ErrRespNil: redis.ErrRespNil,
-	}
+	cli.pool = p
+	return cli
 }
 
 //Ping 监测数据库连接
-func Ping() error {
-	return connErr
+func (c *Client) Ping() error {
+	if c.connErr != nil {
+		return c.connErr
+	}
+	_, c.connErr = c.pool.Cmd("PING").Str()
+	return c.connErr
 }
