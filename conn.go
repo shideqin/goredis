@@ -1,6 +1,7 @@
 package goredis
 
 import (
+	"errors"
 	"github.com/mediocregopher/radix.v2/pool"
 	"github.com/mediocregopher/radix.v2/redis"
 )
@@ -46,6 +47,12 @@ func (c *Client) Ping() error {
 	if c.connErr != nil {
 		return c.connErr
 	}
-	_, c.connErr = c.pool.Cmd("PING").Str()
-	return c.connErr
+	pong, err := c.pool.Cmd("PING").Str()
+	if err != nil {
+		return err
+	}
+	if pong != "PONG" {
+		return errors.New(pong)
+	}
+	return nil
 }
