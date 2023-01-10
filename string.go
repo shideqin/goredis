@@ -66,3 +66,11 @@ func (c *Client) Expire(key string, seconds int) (int, error) {
 	}
 	return c.pool.Cmd("EXPIRE", key, seconds).Int()
 }
+
+//Mget 返回所有(一个或多个)给定 key 的值
+func (c *Client) Mget(key ...string) ([]string, error) {
+	if c.connErr != nil {
+		return []string{}, c.connErr
+	}
+	return c.pool.Cmd("MGET", key).List()
+}
