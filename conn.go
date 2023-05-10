@@ -11,13 +11,13 @@ var (
 	ErrRespNil = redis.ErrRespNil
 )
 
-//Client redis连接结构体
+// Client redis连接结构体
 type Client struct {
 	pool    *pool.Pool
 	connErr error
 }
 
-//Conn 连接redis
+// Conn 连接redis
 func Conn(host, passwd string, size int) *Client {
 	cli := &Client{}
 	df := func(network, addr string) (*redis.Client, error) {
@@ -42,7 +42,7 @@ func Conn(host, passwd string, size int) *Client {
 	return cli
 }
 
-//Ping 监测数据库连接
+// Ping 监测数据库连接
 func (c *Client) Ping() error {
 	if c.connErr != nil {
 		return c.connErr
